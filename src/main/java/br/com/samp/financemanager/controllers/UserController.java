@@ -1,5 +1,7 @@
 package br.com.samp.financemanager.controllers;
 
+import br.com.samp.financemanager.dto.UserRequest;
+import br.com.samp.financemanager.dto.UserResponse;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,18 +26,25 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> users = userService.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<List<UserResponse>> findAll() {
+        List<UserResponse> users = userService.findAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user) {
-        return ResponseEntity.ok(userService.save(user));
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest user) {
+        UserResponse response = userService.save(user);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.id())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(response);
     }
 }
