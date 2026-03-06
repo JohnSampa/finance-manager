@@ -1,4 +1,4 @@
-package br.com.samp.financemanager.Controllers;
+package br.com.samp.financemanager.controllers;
 
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.services.UserService;
