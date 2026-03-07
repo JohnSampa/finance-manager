@@ -1,5 +1,7 @@
 package br.com.samp.financemanager.dto;
 
+import br.com.samp.financemanager.model.enums.UserStatus;
+
 import java.util.List;
 
 public record UserResponse(
@@ -8,6 +10,7 @@ public record UserResponse(
         String username,
         String email,
         String cpf,
-        List<AccountDTO> accounts
+        UserStatus status,
+        List<AccountResponse> accounts
 ) {
 }

@@ -1,11 +1,10 @@
 package br.com.samp.financemanager.controllers;
 
-import br.com.samp.financemanager.dto.UserRequest;
-import br.com.samp.financemanager.dto.UserResponse;
-import br.com.samp.financemanager.services.UserService;
+import br.com.samp.financemanager.dto.AccountRequest;
+import br.com.samp.financemanager.dto.AccountResponse;
+import br.com.samp.financemanager.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,26 +17,29 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
-public class UserController {
+@RequestMapping("/users/{id}/accounts")
+public class AccountController {
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        List<UserResponse> users = userService.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<AccountResponse>> findAll(@PathVariable Long id){
+        return ResponseEntity.ok(accountService.listUserAccounts(id));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findById(id));
+    public ResponseEntity<AccountResponse> findById(@PathVariable Long id){
+        return ResponseEntity.ok(accountService.findAccountById(id));
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody UserRequest user) {
-        UserResponse response = userService.save(user);
+    public ResponseEntity<AccountResponse> save(
+            @PathVariable Long id,
+            @RequestBody AccountRequest accountRequest
+    ) {
+        AccountResponse response = accountService.save(id, accountRequest);
+
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -47,9 +49,6 @@ public class UserController {
         return ResponseEntity.created(uri).body(response);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+
+
 }
