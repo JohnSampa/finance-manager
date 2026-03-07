@@ -4,7 +4,11 @@ import br.com.samp.financemanager.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    List<Account> findAllByUserId(Long userId);
+
+    List<Account> findByHolderId(Long userId);
+
+    Optional<Account> findByHolderIdAndId(Long userId, Long id);
 }

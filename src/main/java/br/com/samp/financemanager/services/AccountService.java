@@ -27,13 +27,13 @@ public class AccountService {
 
     public List<AccountResponse> listUserAccounts(Long userId) {
         return accountMapper
-                .toListAccountsResponse(accountRepository.findAllByUserId(userId));
+                .toListAccountsResponse(accountRepository.findByHolderId(userId));
     }
 
-    public AccountResponse findAccountById(Long accountId) {
-        Account account = accountRepository.findById(accountId)
+    public AccountResponse findByUserAndAccountId(Long userId,Long accountId) {
+        Account account = accountRepository.findByHolderIdAndId(userId, accountId)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Account not found with id: " + accountId)
+                        () -> new ResourceNotFoundException("Account not found")
                 );
         return accountMapper.toAccountResponse(account);
     }

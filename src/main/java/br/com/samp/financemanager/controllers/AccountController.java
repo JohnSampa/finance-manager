@@ -17,28 +17,31 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users/{id}/accounts")
+@RequestMapping("/users/{userId}/accounts")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
     @GetMapping
-    public ResponseEntity<List<AccountResponse>> findAll(@PathVariable Long id){
-        return ResponseEntity.ok(accountService.listUserAccounts(id));
+    public ResponseEntity<List<AccountResponse>> findUserAccounts(@PathVariable Long userId){
+        return ResponseEntity.ok(accountService.listUserAccounts(userId));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<AccountResponse> findById(@PathVariable Long id){
-        return ResponseEntity.ok(accountService.findAccountById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountResponse> findById(
+            @PathVariable Long userId,
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(accountService.findByUserAndAccountId(userId,id));
     }
 
     @PostMapping
     public ResponseEntity<AccountResponse> save(
-            @PathVariable Long id,
+            @PathVariable Long userId,
             @RequestBody AccountRequest accountRequest
     ) {
-        AccountResponse response = accountService.save(id, accountRequest);
+        AccountResponse response = accountService.save(userId, accountRequest);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
