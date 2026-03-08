@@ -1,4 +1,4 @@
-package br.com.samp.financemanager.services.exceptions;
+package br.com.samp.financemanager.exceptions;
 
 public class ResourceNotFoundException extends BusinessException {
     public ResourceNotFoundException(String message) {

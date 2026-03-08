@@ -7,7 +7,7 @@ import br.com.samp.financemanager.model.Account;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.AccountRepository;
 import br.com.samp.financemanager.repository.UserRepository;
-import br.com.samp.financemanager.services.exceptions.ResourceNotFoundException;
+import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +48,12 @@ public class AccountService {
         account = accountRepository.save(account);
 
         return  accountMapper.toAccountResponse(account);
+    }
+
+    public void delete(Long userId,Long id) {
+        if(accountRepository.findByHolderIdAndId(userId,id).isEmpty())
+            throw new ResourceNotFoundException("Account not found with id " + id);
+
+        accountRepository.deleteByHolderIdAndId(userId,id);
     }
 }
