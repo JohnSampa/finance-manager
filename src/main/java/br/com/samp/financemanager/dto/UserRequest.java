@@ -5,6 +5,8 @@ public record UserRequest(
         String username,
         String email,
         String cpf,
+        String zipcode,
+        String addressNumber,
         String password
 ) {
 }

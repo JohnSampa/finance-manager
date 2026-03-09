@@ -15,7 +15,6 @@ public interface UserMapper {
 
     List<UserResponse> toUserResponseList(List<User> users);
 
-
     @Mapping(target = "status",ignore = true)
     @Mapping(target = "accounts",ignore = true)
     @Mapping(target = "id",ignore = true)

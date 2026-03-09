@@ -1,5 +1,6 @@
 package br.com.samp.financemanager.dto;
 
+import br.com.samp.financemanager.model.Address;
 import br.com.samp.financemanager.model.enums.UserStatus;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public record UserResponse(
         String email,
         String cpf,
         UserStatus status,
+        Address address,
         List<AccountResponse> accounts
 ) {
 }

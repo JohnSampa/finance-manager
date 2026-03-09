@@ -3,6 +3,7 @@ package br.com.samp.financemanager.services;
 import br.com.samp.financemanager.dto.UserRequest;
 import br.com.samp.financemanager.dto.UserResponse;
 import br.com.samp.financemanager.dto.mapstruct.UserMapper;
+import br.com.samp.financemanager.model.Address;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.UserRepository;
 import br.com.samp.financemanager.exceptions.DataBaseException;
@@ -23,6 +24,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private AddressService addressService;
+
     public List<UserResponse> findAll() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
@@ -34,16 +38,21 @@ public class UserService {
     }
 
     public UserResponse save(UserRequest userRequest) {
+        Address address = addressService.saveAddress(userRequest.zipcode(),userRequest.addressNumber());
+
         User userEntity = userMapper.toEntity(userRequest);
+
+        userEntity.setAddress(address);
+
         return userMapper.toUserResponse(userRepository.save(userEntity));
     }
 
     public void delete(long id) {
-        if (userRepository.findById(id).isEmpty())
-            throw new ResourceNotFoundException(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(id));
 
         try {
-            userRepository.deleteById(id);
+            userRepository.delete(user);
         }catch(DataIntegrityViolationException e){
 
             throw new DataBaseException(e.getMessage());
