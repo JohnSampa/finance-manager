@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -43,6 +44,32 @@ public class UserService {
         User userEntity = userMapper.toEntity(userRequest);
 
         userEntity.setAddress(address);
+
+        return userMapper.toUserResponse(userRepository.save(userEntity));
+    }
+
+    public UserResponse update(Long id, UserRequest userRequest) {
+        User userEntity = userRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(id));
+
+        var userZipCode = userEntity.getAddress().getZipCode();
+        var userNumber = userEntity.getAddress().getNumber();
+
+        if (!Objects.equals(userZipCode, userRequest.zipcode())&&
+                Objects.equals(userNumber,userRequest.addressNumber())) {
+
+            Address address = addressService.saveAddress(
+                    userRequest.zipcode(),
+                    userRequest.addressNumber()
+            );
+
+            userEntity.setAddress(address);
+        }
+
+        userEntity.setName(userRequest.name());
+        userEntity.setEmail(userRequest.email());
+        userEntity.setCpf(userRequest.cpf());
+        userEntity.setPassword(userRequest.password());
 
         return userMapper.toUserResponse(userRepository.save(userEntity));
     }
