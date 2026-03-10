@@ -52,13 +52,15 @@ public class UserService {
         User userEntity = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(id));
 
-        var userZipCode = userEntity.getAddress().getZipCode();
-        var userNumber = userEntity.getAddress().getNumber();
+        var address = userEntity.getAddress();
 
-        if (!Objects.equals(userZipCode, userRequest.zipcode())&&
-                Objects.equals(userNumber,userRequest.addressNumber())) {
+        var userZipCode = address.getZipCode();
+        var userNumber = address.getNumber();
 
-            Address address = addressService.saveAddress(
+        if (!Objects.equals(userZipCode, userRequest.zipcode())||
+                !Objects.equals(userNumber,userRequest.addressNumber())) {
+
+            Address newAddress = addressService.saveAddress(
                     userRequest.zipcode(),
                     userRequest.addressNumber()
             );
