@@ -4,6 +4,5 @@ public enum ExpenseStatus {
     PLANNED,
     PENDING_CONFIRMATION,
     CONFIRMED,
-    CANCELED,
     DELETED
 }

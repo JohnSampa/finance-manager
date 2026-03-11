@@ -1,7 +1,7 @@
 package br.com.samp.financemanager.controllers;
 
-import br.com.samp.financemanager.dto.UserRequest;
-import br.com.samp.financemanager.dto.UserResponse;
+import br.com.samp.financemanager.dto.request.UserRequest;
+import br.com.samp.financemanager.dto.response.UserResponse;
 import br.com.samp.financemanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

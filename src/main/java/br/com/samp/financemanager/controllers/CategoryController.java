@@ -1,8 +1,8 @@
 package br.com.samp.financemanager.controllers;
 
-import br.com.samp.financemanager.dto.CategoryRequest;
-import br.com.samp.financemanager.dto.CategoryResponse;
-import br.com.samp.financemanager.dto.CategoryUpadateRequest;
+import br.com.samp.financemanager.dto.request.CategoryRequest;
+import br.com.samp.financemanager.dto.response.CategoryResponse;
+import br.com.samp.financemanager.dto.request.CategoryUpadateRequest;
 import br.com.samp.financemanager.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

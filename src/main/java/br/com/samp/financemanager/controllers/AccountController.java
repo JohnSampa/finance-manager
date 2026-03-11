@@ -1,7 +1,7 @@
 package br.com.samp.financemanager.controllers;
 
-import br.com.samp.financemanager.dto.AccountRequest;
-import br.com.samp.financemanager.dto.AccountResponse;
+import br.com.samp.financemanager.dto.request.AccountRequest;
+import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users/{userId}/accounts")
-public class AccountController {
+public class    AccountController {
 
     @Autowired
     private AccountService accountService;

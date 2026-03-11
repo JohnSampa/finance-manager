@@ -1,7 +1,7 @@
 package br.com.samp.financemanager.services;
 
-import br.com.samp.financemanager.dto.AccountRequest;
-import br.com.samp.financemanager.dto.AccountResponse;
+import br.com.samp.financemanager.dto.request.AccountRequest;
+import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.dto.mapstruct.AccountMapper;
 import br.com.samp.financemanager.model.Account;
 import br.com.samp.financemanager.model.User;
@@ -51,8 +51,8 @@ public class AccountService {
     }
 
     public void delete(Long userId,Long id) {
-        if(accountRepository.findByHolderIdAndId(userId,id).isEmpty())
-            throw new ResourceNotFoundException("Account not found with id " + id);
+        accountRepository.findByHolderIdAndId(userId,id)
+                .orElseThrow(()-> new ResourceNotFoundException("Account not found with id " + id));
 
         accountRepository.deleteByHolderIdAndId(userId,id);
     }

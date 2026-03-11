@@ -1,4 +1,4 @@
-package br.com.samp.financemanager.dto;
+package br.com.samp.financemanager.dto.response;
 
 import br.com.samp.financemanager.model.enums.CategoryType;
 

@@ -1,7 +1,7 @@
 package br.com.samp.financemanager.dto.mapstruct;
 
-import br.com.samp.financemanager.dto.CategoryRequest;
-import br.com.samp.financemanager.dto.CategoryResponse;
+import br.com.samp.financemanager.dto.request.CategoryRequest;
+import br.com.samp.financemanager.dto.response.CategoryResponse;
 import br.com.samp.financemanager.model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
