@@ -65,7 +65,7 @@ public class UserService {
                     userRequest.addressNumber()
             );
 
-            userEntity.setAddress(address);
+            userEntity.setAddress(newAddress);
         }
 
         userEntity.setName(userRequest.name());

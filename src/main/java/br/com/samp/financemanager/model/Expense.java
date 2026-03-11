@@ -1,57 +1,63 @@
 package br.com.samp.financemanager.model;
 
+
+import br.com.samp.financemanager.model.enums.ExpenseStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.time.Instant;
 import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 @Entity
-@Table(name = "tb_account")
-public class Account {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String bankName;
+    private Double value;
 
-    private Double balance;
+    private Instant date;
+
+    private String description;
+
+    private ExpenseStatus status = ExpenseStatus.PLANNED;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User holder;
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "expense_category",
+            joinColumns = @JoinColumn(name = "expense_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Category category;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return Objects.equals(id, account.id);
+        Expense expense = (Expense) o;
+        return Objects.equals(id, expense.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    public void withdraw(Double balance) {
-        this.balance -= balance;
-    }
-
-    public void deposit(Double balance) {
-        this.balance += balance;
     }
 }

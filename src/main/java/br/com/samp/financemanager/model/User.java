@@ -56,12 +56,16 @@ public class User {
     private UserStatus status = ACTIVE;
 
     @ManyToOne
-    @JoinColumn(name = "id_address")
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Setter(value = lombok.AccessLevel.NONE)
     @OneToMany(mappedBy = "holder")
     private Set<Account> accounts = new HashSet<>();
+
+    @Setter(value = lombok.AccessLevel.NONE)
+    @OneToMany(mappedBy = "user")
+    private Set<Expense> expenses = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
