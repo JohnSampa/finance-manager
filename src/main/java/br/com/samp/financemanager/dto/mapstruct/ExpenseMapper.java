@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import static br.com.samp.financemanager.model.enums.ExpenseStatus.PENDING_CONFIRMATION;
@@ -36,7 +37,7 @@ public interface ExpenseMapper {
             return status;
         }
 
-        if (expense.getDate().isBefore(Instant.now())){
+        if (expense.getDate().isBefore(LocalDate.now())){
             return PENDING_CONFIRMATION;
         }
 

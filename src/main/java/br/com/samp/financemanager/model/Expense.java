@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class Expense {
 
     private Double amount;
 
-    private Instant date;
+    private LocalDate date;
 
     private String description;
 

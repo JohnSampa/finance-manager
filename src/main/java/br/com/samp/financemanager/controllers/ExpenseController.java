@@ -52,7 +52,7 @@ public class ExpenseController {
                 .buildAndExpand(response.id())
                 .toUri();
 
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(response);
     }
 
 }
