@@ -31,7 +31,7 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Double value;
+    private Double amount;
 
     private Instant date;
 

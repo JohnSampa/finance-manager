@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,11 +60,11 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Setter(value = lombok.AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "holder")
     private Set<Account> accounts = new HashSet<>();
 
-    @Setter(value = lombok.AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "user")
     private Set<Expense> expenses = new HashSet<>();
 

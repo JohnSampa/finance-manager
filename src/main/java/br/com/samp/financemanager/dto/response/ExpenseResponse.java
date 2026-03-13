@@ -7,7 +7,7 @@ import java.time.Instant;
 
 public record ExpenseResponse(
         Long id,
-        Double value,
+        Double amount,
         @JsonFormat(pattern = "dd/MM/yyyy")
         Instant date,
         String description,

@@ -1,12 +1,14 @@
 package br.com.samp.financemanager.controllers;
 
 import br.com.samp.financemanager.dto.request.AccountRequest;
+import br.com.samp.financemanager.dto.request.TransactionRequest;
 import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,6 +53,17 @@ public class    AccountController {
                 .toUri();
 
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @PostMapping("/{id}/deposit")
+    public ResponseEntity<AccountResponse> deposit(
+            @PathVariable Long userId,
+            @PathVariable Long id,
+            @RequestBody TransactionRequest transactionRequest
+    ){
+        AccountResponse response = accountService.deposit(userId,id,transactionRequest.amount());
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
