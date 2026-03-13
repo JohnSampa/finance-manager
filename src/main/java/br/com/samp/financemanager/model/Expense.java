@@ -50,7 +50,7 @@ public class Expense {
             joinColumns = @JoinColumn(name = "expense_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> category = new HashSet<>();
+    private Set<Category> categories = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
