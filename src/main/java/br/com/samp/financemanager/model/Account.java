@@ -37,6 +37,14 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User holder;
 
+    public void withdraw(Double balance) {
+        this.balance -= balance;
+    }
+
+    public void deposit(Double balance) {
+        this.balance += balance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -47,13 +55,5 @@ public class Account {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    public void withdraw(Double balance) {
-        this.balance -= balance;
-    }
-
-    public void deposit(Double balance) {
-        this.balance += balance;
     }
 }

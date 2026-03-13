@@ -69,4 +69,18 @@ public class AccountService {
 
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }
+
+    public AccountResponse withdraw(Long userId,Long accountId,Double amount) {
+        Account account = accountRepository.findByHolderIdAndId(userId, accountId)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        if (amount < 0) throw new BusinessException("Amount cannot be negative");
+
+        if (account.getBalance() < amount) throw new BusinessException("Insufficient balance");
+
+
+        account.withdraw(amount);
+
+        return accountMapper.toAccountResponse(accountRepository.save(account));
+    }
 }
