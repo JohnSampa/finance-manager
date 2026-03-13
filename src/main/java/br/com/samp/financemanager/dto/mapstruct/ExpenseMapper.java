@@ -1,5 +1,6 @@
 package br.com.samp.financemanager.dto.mapstruct;
 
+import br.com.samp.financemanager.dto.request.ExpenseRequest;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.enums.ExpenseStatus;
@@ -15,6 +16,11 @@ import static br.com.samp.financemanager.model.enums.ExpenseStatus.PLANNED;
 
 @Mapper(componentModel = "spring")
 public interface ExpenseMapper {
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    Expense toEntity(ExpenseRequest expenseRequest);
 
     @Mapping(source = ".", target = "status", qualifiedByName = "calculateStatus")
     ExpenseResponse toExpenseResponse(Expense expense);

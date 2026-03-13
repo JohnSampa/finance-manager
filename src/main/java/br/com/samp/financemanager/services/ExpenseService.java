@@ -1,6 +1,7 @@
 package br.com.samp.financemanager.services;
 
 import br.com.samp.financemanager.dto.mapstruct.ExpenseMapper;
+import br.com.samp.financemanager.dto.request.ExpenseRequest;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Expense;
@@ -35,6 +36,19 @@ public class ExpenseService {
                .orElseThrow(()-> new ResourceNotFoundException("Expense not found with id: " + id));
 
        return mapper.toExpenseResponse(expense);
+    }
+
+    public ExpenseResponse saveExpense(Long userId,ExpenseRequest expenseRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found with id: " + userId));
+
+        Expense expense = mapper.toEntity(expenseRequest);
+
+        expense.setUser(user);
+
+        expense =  repository.save(expense);
+
+        return mapper.toExpenseResponse(expense);
     }
 
 
