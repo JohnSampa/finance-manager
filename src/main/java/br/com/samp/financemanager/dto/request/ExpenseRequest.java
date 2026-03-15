@@ -3,6 +3,7 @@ package br.com.samp.financemanager.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record ExpenseRequest(
         Double amount,
@@ -10,6 +11,8 @@ public record ExpenseRequest(
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate date,
 
-        String description
+        String description,
+
+        List<Long> categoryIds
 ) {
 }

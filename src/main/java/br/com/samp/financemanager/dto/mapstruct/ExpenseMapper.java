@@ -14,12 +14,13 @@ import java.util.List;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.PENDING_CONFIRMATION;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.PLANNED;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = CategoryMapper.class)
 public interface ExpenseMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     Expense toEntity(ExpenseRequest expenseRequest);
 
     @Mapping(source = ".", target = "status", qualifiedByName = "calculateStatus")

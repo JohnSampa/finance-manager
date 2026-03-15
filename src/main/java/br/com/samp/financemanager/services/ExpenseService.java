@@ -5,13 +5,16 @@ import br.com.samp.financemanager.dto.request.ExpenseRequest;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.exceptions.BusinessException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
+import br.com.samp.financemanager.model.Category;
 import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.User;
+import br.com.samp.financemanager.repository.CategoryRepository;
 import br.com.samp.financemanager.repository.ExpenseRepository;
 import br.com.samp.financemanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static br.com.samp.financemanager.model.enums.TransactionStatus.CONFIRMED;
@@ -30,6 +33,9 @@ public class ExpenseService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public List<ExpenseResponse> findByUserId(Long userId) {
         List<Expense> expenses = repository.findByUserId(userId);
 
@@ -47,8 +53,10 @@ public class ExpenseService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("User not found with id: " + userId));
 
-        Expense expense = mapper.toEntity(expenseRequest);
+        List<Category> categories = getCategoriesById(expenseRequest.categoryIds());
 
+        Expense expense = mapper.toEntity(expenseRequest);
+        expense.getCategories().addAll(categories);
         expense.setUser(user);
 
         expense =  repository.save(expense);
@@ -75,6 +83,15 @@ public class ExpenseService {
 
         expense.setStatus(DELETED);
         expense = repository.save(expense);
+    }
+
+    private List<Category> getCategoriesById(List<Long> ids) {
+
+        List<Category> categories = categoryRepository.findAllById(ids);
+        if(categories.size()!= ids.size())
+            throw new ResourceNotFoundException("Category not found");
+
+        return categories;
     }
 
 
