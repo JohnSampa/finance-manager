@@ -1,6 +1,6 @@
 package br.com.samp.financemanager.model.enums;
 
-public enum ExpenseStatus {
+public enum TransactionStatus {
     PLANNED,
     PENDING_CONFIRMATION,
     CONFIRMED,

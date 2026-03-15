@@ -68,6 +68,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Expense> expenses = new HashSet<>();
 
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user")
+    private Set<Earning> earnings = new HashSet<>();
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

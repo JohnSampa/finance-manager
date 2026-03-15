@@ -9,15 +9,14 @@ import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.ExpenseRepository;
 import br.com.samp.financemanager.repository.UserRepository;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static br.com.samp.financemanager.model.enums.ExpenseStatus.CONFIRMED;
-import static br.com.samp.financemanager.model.enums.ExpenseStatus.DELETED;
-import static br.com.samp.financemanager.model.enums.ExpenseStatus.PENDING_CONFIRMATION;
+import static br.com.samp.financemanager.model.enums.TransactionStatus.CONFIRMED;
+import static br.com.samp.financemanager.model.enums.TransactionStatus.DELETED;
+import static br.com.samp.financemanager.model.enums.TransactionStatus.PENDING_CONFIRMATION;
 
 @Service
 public class ExpenseService {

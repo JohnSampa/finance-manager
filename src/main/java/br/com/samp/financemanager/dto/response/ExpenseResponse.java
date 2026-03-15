@@ -1,6 +1,6 @@
 package br.com.samp.financemanager.dto.response;
 
-import br.com.samp.financemanager.model.enums.ExpenseStatus;
+import br.com.samp.financemanager.model.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -11,6 +11,6 @@ public record ExpenseResponse(
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate date,
         String description,
-        ExpenseStatus status
+        TransactionStatus status
 ) {
 }
