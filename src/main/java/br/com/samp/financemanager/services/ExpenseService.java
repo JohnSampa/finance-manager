@@ -8,6 +8,7 @@ import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Category;
 import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.User;
+import br.com.samp.financemanager.model.enums.CategoryType;
 import br.com.samp.financemanager.repository.CategoryRepository;
 import br.com.samp.financemanager.repository.ExpenseRepository;
 import br.com.samp.financemanager.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.samp.financemanager.model.enums.CategoryType.EXPANSE;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.CONFIRMED;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.DELETED;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.PENDING_CONFIRMATION;
@@ -42,16 +44,16 @@ public class ExpenseService {
         return mapper.toExpenseResponseList(expenses);
     }
 
-    public ExpenseResponse findByUserIdAndId(Long userId,Long id) {
-       Expense expense = repository.findByUserIdAndId(userId,id)
-               .orElseThrow(()-> new ResourceNotFoundException("Expense not found"));
+    public ExpenseResponse findByUserIdAndId(Long userId, Long id) {
+        Expense expense = repository.findByUserIdAndId(userId, id)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
-       return mapper.toExpenseResponse(expense);
+        return mapper.toExpenseResponse(expense);
     }
 
-    public ExpenseResponse saveExpense(Long userId,ExpenseRequest expenseRequest) {
+    public ExpenseResponse saveExpense(Long userId, ExpenseRequest expenseRequest) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found with id: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
         List<Category> categories = getCategoriesById(expenseRequest.categoryIds());
 
@@ -59,16 +61,16 @@ public class ExpenseService {
         expense.getCategories().addAll(categories);
         expense.setUser(user);
 
-        expense =  repository.save(expense);
+        expense = repository.save(expense);
 
         return mapper.toExpenseResponse(expense);
     }
 
-    public ExpenseResponse confirmExpense(Long userId,Long expenseId) {
-        Expense expense = repository.findByUserIdAndId(userId,expenseId)
-                .orElseThrow(()-> new ResourceNotFoundException("Expense not found"));
+    public ExpenseResponse confirmExpense(Long userId, Long expenseId) {
+        Expense expense = repository.findByUserIdAndId(userId, expenseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
-        if(expense.getStatus()!= PENDING_CONFIRMATION)
+        if (expense.getStatus() != PENDING_CONFIRMATION)
             throw new BusinessException("Expense cannot be confirmed");
 
         expense.setStatus(CONFIRMED);
@@ -77,9 +79,9 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
-    public void deleteExpense(Long userId,Long expenseId) {
-        Expense expense = repository.findByUserIdAndId(userId,expenseId)
-                .orElseThrow(()-> new ResourceNotFoundException("Expense not found"));
+    public void deleteExpense(Long userId, Long expenseId) {
+        Expense expense = repository.findByUserIdAndId(userId, expenseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
         expense.setStatus(DELETED);
         expense = repository.save(expense);
@@ -88,12 +90,19 @@ public class ExpenseService {
     private List<Category> getCategoriesById(List<Long> ids) {
 
         List<Category> categories = categoryRepository.findAllById(ids);
-        if(categories.size()!= ids.size())
+
+        if (categories.size() != ids.size())
             throw new ResourceNotFoundException("Category not found");
+
+        List<Category> invalidCategories = categories.stream()
+                .filter(category -> category.getType()!= EXPANSE)
+                .toList();
+
+        if (!invalidCategories.isEmpty()) {
+            throw new BusinessException(
+                    "Categories that are not related to expenses are not allowed.");
+        }
 
         return categories;
     }
-
-
-
 }
