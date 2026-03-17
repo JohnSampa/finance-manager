@@ -48,7 +48,7 @@ public class Earning {
             name = "earning_category",
             joinColumns = @JoinColumn(name = "earning_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>();
+    private Set<Category> categories = new HashSet< >();
 
     @Override
     public boolean equals(Object o) {
