@@ -12,9 +12,9 @@ public record EarningResponse(
 
         LocalDate date,
 
-        TransactionStatus status,
-
         String description,
+
+        TransactionStatus status,
 
         List<CategoryResponse> categories
 )   {

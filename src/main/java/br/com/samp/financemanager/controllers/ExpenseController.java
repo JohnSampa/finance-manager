@@ -37,7 +37,7 @@ public class ExpenseController {
             @PathVariable Long userId,
             @PathVariable Long id
     ) {
-        return ResponseEntity.ok(expenseService.findByUserIdAndId(userId,id));
+        return ResponseEntity.ok(expenseService.findByUserIdAndId(userId, id));
     }
 
     @PostMapping
@@ -60,7 +60,7 @@ public class ExpenseController {
     public ResponseEntity<ExpenseResponse> confirmExpense(
             @PathVariable Long userId,
             @PathVariable Long expenseId
-    ){
+    ) {
         ExpenseResponse response = expenseService.confirmExpense(userId, expenseId);
 
         return ResponseEntity.ok(response);
