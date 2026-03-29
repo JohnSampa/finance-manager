@@ -18,5 +18,6 @@ public interface UserMapper {
     @Mapping(target = "status",ignore = true)
     @Mapping(target = "accounts",ignore = true)
     @Mapping(target = "id",ignore = true)
+    @Mapping(target = "role",ignore = true)
     User toEntity(UserRequest userRequest);
 }

@@ -1,15 +1,14 @@
 package br.com.samp.financemanager.services;
 
+import br.com.samp.financemanager.dto.mapstruct.AccountMapper;
 import br.com.samp.financemanager.dto.request.AccountRequest;
 import br.com.samp.financemanager.dto.response.AccountResponse;
-import br.com.samp.financemanager.dto.mapstruct.AccountMapper;
 import br.com.samp.financemanager.exceptions.BusinessException;
+import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Account;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.AccountRepository;
 import br.com.samp.financemanager.repository.UserRepository;
-import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

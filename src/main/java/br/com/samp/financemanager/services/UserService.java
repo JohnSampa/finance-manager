@@ -1,13 +1,13 @@
 package br.com.samp.financemanager.services;
 
+import br.com.samp.financemanager.dto.mapstruct.UserMapper;
 import br.com.samp.financemanager.dto.request.UserRequest;
 import br.com.samp.financemanager.dto.response.UserResponse;
-import br.com.samp.financemanager.dto.mapstruct.UserMapper;
+import br.com.samp.financemanager.exceptions.DataBaseException;
+import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Address;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.UserRepository;
-import br.com.samp.financemanager.exceptions.DataBaseException;
-import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;

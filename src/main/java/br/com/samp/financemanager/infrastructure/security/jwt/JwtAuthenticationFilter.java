@@ -1,7 +1,6 @@
 package br.com.samp.financemanager.infrastructure.security.jwt;
 
 import br.com.samp.financemanager.repository.UserRepository;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

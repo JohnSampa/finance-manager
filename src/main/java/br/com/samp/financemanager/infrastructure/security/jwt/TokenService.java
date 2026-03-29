@@ -15,10 +15,14 @@ import java.time.Instant;
 @Service
 public class TokenService {
 
-    @Value("${application.security.token.secret}")
-    private String secret;
+    private final String secret;
 
-    private final Algorithm algorithm = Algorithm.HMAC256(secret);
+    private final Algorithm algorithm;
+
+    public TokenService(@Value("${application.security.token.secret}")  String secret) {
+        this.secret = secret;
+        this.algorithm =  Algorithm.HMAC256(secret);
+    }
 
     public String generateToken(User user) {
         try {

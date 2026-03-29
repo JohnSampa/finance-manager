@@ -7,7 +7,6 @@ import br.com.samp.financemanager.exceptions.BusinessException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Category;
 import br.com.samp.financemanager.model.Earning;
-import br.com.samp.financemanager.model.enums.CategoryType;
 import br.com.samp.financemanager.repository.CategoryRepository;
 import br.com.samp.financemanager.repository.EarningRepository;
 import org.springframework.beans.factory.annotation.Autowired;

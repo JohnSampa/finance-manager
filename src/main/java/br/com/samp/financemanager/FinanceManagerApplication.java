@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients(basePackages = "br.com.samp.financemanager.integration")
+@EnableFeignClients(basePackages = "br.com.samp.financemanager.infrastructure.integration")
 public class FinanceManagerApplication {
 
 	public static void main(String[] args) {
