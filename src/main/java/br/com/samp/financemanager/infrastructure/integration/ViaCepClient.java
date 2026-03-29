@@ -1,4 +1,4 @@
-package br.com.samp.financemanager.integration;
+package br.com.samp.financemanager.infrastructure.integration;
 
 import br.com.samp.financemanager.dto.ViaCepAddressDTO;
 import org.springframework.cloud.openfeign.FeignClient;

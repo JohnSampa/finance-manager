@@ -3,7 +3,7 @@ package br.com.samp.financemanager.services;
 import br.com.samp.financemanager.dto.ViaCepAddressDTO;
 import br.com.samp.financemanager.dto.mapstruct.ViaCepAddressMapper;
 import br.com.samp.financemanager.exceptions.BusinessException;
-import br.com.samp.financemanager.integration.ViaCepClient;
+import br.com.samp.financemanager.infrastructure.integration.ViaCepClient;
 import br.com.samp.financemanager.model.Address;
 import br.com.samp.financemanager.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
