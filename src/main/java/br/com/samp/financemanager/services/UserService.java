@@ -45,6 +45,11 @@ public class UserService {
     }
 
     public UserResponse save(UserRequest userRequest) {
+        User user = saveEntity(userRequest);
+        return userMapper.toUserResponse(user);
+    }
+
+    public User saveEntity(UserRequest userRequest) {
         Address address = addressService.saveAddress(userRequest.zipcode(),userRequest.addressNumber());
 
         User userEntity = userMapper.toEntity(userRequest);
@@ -55,7 +60,7 @@ public class UserService {
         userEntity.setRole(USER);
         userEntity.setAddress(address);
 
-        return userMapper.toUserResponse(userRepository.save(userEntity));
+        return userRepository.save(userEntity);
     }
 
     public UserResponse update(Long id, UserRequest userRequest) {
