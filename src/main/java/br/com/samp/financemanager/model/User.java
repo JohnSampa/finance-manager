@@ -1,6 +1,6 @@
 package br.com.samp.financemanager.model;
 
-import br.com.samp.financemanager.model.enums.UserRoles;
+import br.com.samp.financemanager.model.enums.UserRole;
 import br.com.samp.financemanager.model.enums.UserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,14 +19,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static br.com.samp.financemanager.model.enums.UserRole.ADMIN;
 import static br.com.samp.financemanager.model.enums.UserStatus.ACTIVE;
 
 @Getter
@@ -54,7 +57,7 @@ public class User implements UserDetails {
     private String cpf;
 
     @Column(nullable = false)
-    private UserRoles roles;
+    private UserRole role;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status = ACTIVE;
@@ -89,7 +92,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        if (role == ADMIN) {
+            return Arrays.stream(UserRole.values())
+                    .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRole()))
+                    .toList();
+        }
+
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
     }
 
     @Override

@@ -3,13 +3,13 @@ package br.com.samp.financemanager.model.enums;
 import lombok.Getter;
 
 @Getter
-public enum UserRoles {
+public enum UserRole {
     ADMIN("ADMIN"),
     USER("USER");
 
     private final String role;
 
-    UserRoles(String role) {
+    UserRole(String role) {
         this.role = role;
     }
 }
