@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static br.com.samp.financemanager.model.enums.UserRole.USER;
+
 @Service
 public class UserService {
 
@@ -50,6 +52,7 @@ public class UserService {
         var passwordEncode = passwordEncoder.encode(userRequest.password());
 
         userEntity.setPassword(passwordEncode);
+        userEntity.setRole(USER);
         userEntity.setAddress(address);
 
         return userMapper.toUserResponse(userRepository.save(userEntity));

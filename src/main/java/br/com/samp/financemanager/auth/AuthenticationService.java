@@ -26,7 +26,6 @@ public class AuthenticationService {
 
         var authentication = authenticationManager.authenticate(usernamePassword);
 
-
         return authentication.getPrincipal().toString();
 
     }
