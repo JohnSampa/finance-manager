@@ -4,6 +4,7 @@ package br.com.samp.financemanager.exceptions.handler;
 import br.com.samp.financemanager.exceptions.BusinessException;
 import br.com.samp.financemanager.exceptions.DataBaseException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
+import br.com.samp.financemanager.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +35,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ProblemDetail handleBusinessException(BusinessException e) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setDetail(e.getMessage());
+        problem.setProperty("timestamp", Instant.now());
+        return problem;
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ProblemDetail handleUnauthorizedException(UnauthorizedException e) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
         problem.setDetail(e.getMessage());
         problem.setProperty("timestamp", Instant.now());
         return problem;
