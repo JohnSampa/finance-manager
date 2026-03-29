@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    @PostMapping
+   @PostMapping
     public ResponseEntity<UserResponse> save(@RequestBody UserRequest user) {
         UserResponse response = userService.save(user);
         URI uri = ServletUriComponentsBuilder

@@ -10,6 +10,7 @@ import br.com.samp.financemanager.exceptions.DataBaseException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class UserService {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<UserResponse> findAll() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
@@ -43,6 +47,9 @@ public class UserService {
 
         User userEntity = userMapper.toEntity(userRequest);
 
+        var passwordEncode = passwordEncoder.encode(userRequest.password());
+
+        userEntity.setPassword(passwordEncode);
         userEntity.setAddress(address);
 
         return userMapper.toUserResponse(userRepository.save(userEntity));
@@ -71,7 +78,7 @@ public class UserService {
         userEntity.setName(userRequest.name());
         userEntity.setEmail(userRequest.email());
         userEntity.setCpf(userRequest.cpf());
-        userEntity.setPassword(userRequest.password());
+        userEntity.setPassword(passwordEncoder.encode(userRequest.password()));
 
         return userMapper.toUserResponse(userRepository.save(userEntity));
     }
