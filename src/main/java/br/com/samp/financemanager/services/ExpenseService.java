@@ -8,14 +8,12 @@ import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Category;
 import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.User;
-import br.com.samp.financemanager.model.enums.CategoryType;
 import br.com.samp.financemanager.repository.CategoryRepository;
 import br.com.samp.financemanager.repository.ExpenseRepository;
 import br.com.samp.financemanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static br.com.samp.financemanager.model.enums.CategoryType.EXPANSE;
@@ -38,7 +36,7 @@ public class ExpenseService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<ExpenseResponse> findByUserId(Long userId) {
+    public List<ExpenseResponse> findAllByUserId(Long userId) {
         List<Expense> expenses = repository.findByUserId(userId);
 
         return mapper.toExpenseResponseList(expenses);

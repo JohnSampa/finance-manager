@@ -29,7 +29,7 @@ public class ExpenseController {
     public ResponseEntity<List<ExpenseResponse>> findAllByUserId(
             @PathVariable Long userId
     ) {
-        return ResponseEntity.ok(expenseService.findByUserId(userId));
+        return ResponseEntity.ok(expenseService.findAllByUserId(userId));
     }
 
     @GetMapping("/{id}")
