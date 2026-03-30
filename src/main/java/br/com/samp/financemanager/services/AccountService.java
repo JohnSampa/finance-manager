@@ -32,6 +32,7 @@ public class AccountService {
     }
 
     public AccountResponse findByUserAndAccountId(Long userId,Long accountId) {
+
         Account account = accountRepository.findByHolderIdAndId(userId, accountId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Account not found")

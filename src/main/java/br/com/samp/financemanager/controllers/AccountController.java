@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users/{userId}/accounts")
+@RequestMapping("/accounts")
 public class    AccountController {
 
     @Autowired
