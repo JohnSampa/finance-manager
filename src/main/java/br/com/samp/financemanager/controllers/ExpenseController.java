@@ -19,33 +19,29 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users/{userId}/expenses")
+@RequestMapping("/expenses")
 public class ExpenseController {
 
     @Autowired
     private ExpenseService expenseService;
 
     @GetMapping
-    public ResponseEntity<List<ExpenseResponse>> findAllByUserId(
-            @PathVariable Long userId
-    ) {
-        return ResponseEntity.ok(expenseService.findAllByUserId(userId));
+    public ResponseEntity<List<ExpenseResponse>> findAllByUserId() {
+        return ResponseEntity.ok(expenseService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExpenseResponse> findByUserIdAndExpenseId(
-            @PathVariable Long userId,
+    public ResponseEntity<ExpenseResponse> findById(
             @PathVariable Long id
     ) {
-        return ResponseEntity.ok(expenseService.findByUserIdAndId(userId, id));
+        return ResponseEntity.ok(expenseService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<ExpenseResponse> save(
-            @PathVariable Long userId,
-            @Valid @RequestBody ExpenseRequest expenseRequest
+            @RequestBody ExpenseRequest expenseRequest
     ) {
-        ExpenseResponse response = expenseService.saveExpense(userId, expenseRequest);
+        ExpenseResponse response = expenseService.save(expenseRequest);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -58,20 +54,18 @@ public class ExpenseController {
 
     @PostMapping("/{id}/confirm")
     public ResponseEntity<ExpenseResponse> confirmExpense(
-            @PathVariable Long userId,
-            @PathVariable Long expenseId
+            @PathVariable Long id
     ) {
-        ExpenseResponse response = expenseService.confirmExpense(userId, expenseId);
+        ExpenseResponse response = expenseService.confirmExpense(id);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExpense(
-            @PathVariable Long userId,
-            @PathVariable Long expenseId
+            @PathVariable Long id
     ) {
-        expenseService.deleteExpense(userId, expenseId);
+        expenseService.deleteExpense(id);
 
         return ResponseEntity.noContent().build();
     }
