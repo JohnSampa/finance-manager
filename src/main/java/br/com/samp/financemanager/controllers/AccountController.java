@@ -26,24 +26,22 @@ public class    AccountController {
     private AccountService accountService;
 
     @GetMapping
-    public ResponseEntity<List<AccountResponse>> findUserAccounts(@PathVariable Long userId){
-        return ResponseEntity.ok(accountService.listUserAccounts(userId));
+    public ResponseEntity<List<AccountResponse>> findAccounts(){
+        return ResponseEntity.ok(accountService.listAccounts());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> findById(
-            @PathVariable Long userId,
             @PathVariable Long id
     ){
-        return ResponseEntity.ok(accountService.findByUserAndAccountId(userId,id));
+        return ResponseEntity.ok(accountService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<AccountResponse> save(
-            @PathVariable Long userId,
             @RequestBody AccountRequest accountRequest
     ) {
-        AccountResponse response = accountService.save(userId, accountRequest);
+        AccountResponse response = accountService.save(accountRequest);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -56,30 +54,28 @@ public class    AccountController {
 
     @PostMapping("/{id}/deposit")
     public ResponseEntity<AccountResponse> deposit(
-            @PathVariable Long userId,
             @PathVariable Long id,
             @RequestBody TransactionRequest transactionRequest
     ){
-        AccountResponse response = accountService.deposit(userId,id,transactionRequest.amount());
+        AccountResponse response = accountService.deposit(id,transactionRequest.amount());
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}/withdraw")
     public ResponseEntity<AccountResponse> withdraw(
-            @PathVariable Long userId,
             @PathVariable Long id,
             @RequestBody TransactionRequest transactionRequest
     ){
-        AccountResponse response = accountService.withdraw(userId,id,transactionRequest.amount());
+        AccountResponse response = accountService.withdraw(id,transactionRequest.amount());
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long userId, @PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
 
-        accountService.delete(userId,id);
+        accountService.delete(id);
 
         return ResponseEntity.noContent().build();
     }

@@ -5,6 +5,7 @@ import br.com.samp.financemanager.dto.request.AccountRequest;
 import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.exceptions.BusinessException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
+import br.com.samp.financemanager.infrastructure.security.service.AuthenticatedUserService;
 import br.com.samp.financemanager.model.Account;
 import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.AccountRepository;
@@ -26,23 +27,28 @@ public class AccountService {
     @Autowired
     private AccountMapper accountMapper;
 
-    public List<AccountResponse> listUserAccounts(Long userId) {
+    @Autowired
+    private AuthenticatedUserService userAuthService;
+
+    public List<AccountResponse> listAccounts() {
+        User user = userAuthService.getAuthenticatedUser();
+
         return accountMapper
-                .toListAccountsResponse(accountRepository.findByHolderId(userId));
+                .toListAccountsResponse(accountRepository.findByHolder(user));
     }
 
-    public AccountResponse findByUserAndAccountId(Long userId,Long accountId) {
+    public AccountResponse findById(Long id) {
+        User user = userAuthService.getAuthenticatedUser();
 
-        Account account = accountRepository.findByHolderIdAndId(userId, accountId)
+        Account account = accountRepository.findByHolderAndId(user,id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Account not found")
                 );
         return accountMapper.toAccountResponse(account);
     }
 
-    public AccountResponse save(Long id, AccountRequest accountRequest) {
-        User user = userRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found with id " + id));
+    public AccountResponse save(AccountRequest accountRequest) {
+        User user = userAuthService.getAuthenticatedUser();
 
         Account account = accountMapper.toEntity(accountRequest);
 
@@ -52,15 +58,19 @@ public class AccountService {
         return  accountMapper.toAccountResponse(account);
     }
 
-    public void delete(Long userId,Long id) {
-        accountRepository.findByHolderIdAndId(userId,id)
+    public void delete(Long id) {
+        User user = userAuthService.getAuthenticatedUser();
+
+        accountRepository.findByHolderAndId(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Account not found with id " + id));
 
-        accountRepository.deleteByHolderIdAndId(userId,id);
+        accountRepository.deleteByHolderAndId(user,id);
     }
 
-    public AccountResponse deposit(Long userId,Long accountId,Double amount) {
-        Account account = accountRepository.findByHolderIdAndId(userId, accountId)
+    public AccountResponse deposit(Long accountId,Double amount) {
+        User user = userAuthService.getAuthenticatedUser();
+
+        Account account = accountRepository.findByHolderAndId(user, accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
 
         if (amount < 0) throw new BusinessException("Amount cannot be negative");
@@ -70,8 +80,10 @@ public class AccountService {
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }
 
-    public AccountResponse withdraw(Long userId,Long accountId,Double amount) {
-        Account account = accountRepository.findByHolderIdAndId(userId, accountId)
+    public AccountResponse withdraw(Long accountId,Double amount) {
+        User user = userAuthService.getAuthenticatedUser();
+
+        Account account = accountRepository.findByHolderAndId(user, accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
 
         if (amount < 0) throw new BusinessException("Amount cannot be negative");
