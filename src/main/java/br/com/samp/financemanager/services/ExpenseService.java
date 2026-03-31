@@ -12,7 +12,6 @@ import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.model.enums.TransactionStatus;
 import br.com.samp.financemanager.repository.CategoryRepository;
 import br.com.samp.financemanager.repository.ExpenseRepository;
-import br.com.samp.financemanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +31,6 @@ public class ExpenseService {
 
     @Autowired
     private ExpenseMapper mapper;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -89,11 +85,14 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
-    public void deleteExpense(Long id) {
+    public void deleteById(Long id) {
         User user = userAuthService.getAuthenticatedUser();
 
         Expense expense = repository.findByUserAndId(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
+
+        if (expense.getStatus() == DELETED)
+            throw new BusinessException("Expense cannot be deleted");
 
         expense.setStatus(DELETED);
         expense = repository.save(expense);

@@ -3,7 +3,6 @@ package br.com.samp.financemanager.controllers;
 import br.com.samp.financemanager.dto.request.ExpenseRequest;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.services.ExpenseService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,7 +64,7 @@ public class ExpenseController {
     public ResponseEntity<Void> deleteExpense(
             @PathVariable Long id
     ) {
-        expenseService.deleteExpense(id);
+        expenseService.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }
