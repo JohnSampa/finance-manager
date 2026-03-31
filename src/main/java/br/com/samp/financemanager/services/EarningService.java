@@ -56,7 +56,7 @@ public class EarningService {
         return mapper.toResponse(earning);
     }
 
-    public EarningResponse saveEarning(EarningRequest earningRequest) {
+    public EarningResponse save(EarningRequest earningRequest) {
         User user = userAuthService.getAuthenticatedUser();
 
         List<Category> categories = getCategoriesByIds(earningRequest.categoriesIds());
