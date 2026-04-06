@@ -14,6 +14,7 @@ public interface AccountMapper {
     AccountResponse toAccountResponse(Account account);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "holder",ignore = true)
     Account toEntity(AccountRequest accountRequest);
 
     List<AccountResponse> toListAccountsResponse(List<Account> accounts);

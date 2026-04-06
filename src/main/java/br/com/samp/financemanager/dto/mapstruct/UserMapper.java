@@ -19,5 +19,11 @@ public interface UserMapper {
     @Mapping(target = "accounts",ignore = true)
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "role",ignore = true)
+    @Mapping(target = "address",ignore = true)
+    @Mapping(target = "authorities",ignore = true)
+    @Mapping(target = "expenses",ignore = true)
+    @Mapping(target = "earnings",ignore = true)
+    @Mapping(target = "failedLoginAttempts",ignore = true)
+    @Mapping(target = "lockUntil",ignore = true)
     User toEntity(UserRequest userRequest);
 }

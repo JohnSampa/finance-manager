@@ -18,6 +18,7 @@ public interface ViaCepAddressMapper {
             @Mapping(target = "neighborhood",source = "bairro"),
             @Mapping(target = "city",source = "localidade"),
             @Mapping(target = "state",source = "uf"),
+            @Mapping(target = "users",ignore = true),
     })
     Address toEntity(ViaCepAddressDTO viaCepAddressDTO);
 }
