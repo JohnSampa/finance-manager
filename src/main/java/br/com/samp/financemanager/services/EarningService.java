@@ -16,6 +16,7 @@ import br.com.samp.financemanager.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static br.com.samp.financemanager.model.enums.CategoryType.EARNING;
@@ -39,10 +40,14 @@ public class EarningService {
     @Autowired
     private AuthenticatedUserService userAuthService;
 
-    public List<EarningResponse> findAll() {
+    public List<EarningResponse> find(
+            Long id,
+            LocalDate date,
+            TransactionStatus status
+    ) {
         User user = userAuthService.getAuthenticatedUser();
 
-        List<Earning> earnings = earningRepository.findByUser(user);
+        List<Earning> earnings = earningRepository.findWithFilters(user,id, date, status);
 
         return  mapper.toResponseList(earnings);
     }

@@ -2,8 +2,10 @@ package br.com.samp.financemanager.controllers;
 
 import br.com.samp.financemanager.dto.request.EarningRequest;
 import br.com.samp.financemanager.dto.response.EarningResponse;
+import br.com.samp.financemanager.model.enums.TransactionStatus;
 import br.com.samp.financemanager.services.EarningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
+
+import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 @RestController
 @RequestMapping("/earnings")
@@ -25,8 +31,18 @@ public class EarningController {
     private EarningService earningService;
 
     @GetMapping
-    public ResponseEntity<List<EarningResponse>> findAll() {
-        return ResponseEntity.ok(earningService.findAll());
+    public ResponseEntity<List<EarningResponse>> findAll(
+            @RequestParam(required = false)
+            Long id,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DATE)
+            LocalDate date,
+
+            @RequestParam(required = false)
+            TransactionStatus status
+    ) {
+        return ResponseEntity.ok(earningService.find(id, date, status));
     }
 
     @GetMapping("/{id}")
