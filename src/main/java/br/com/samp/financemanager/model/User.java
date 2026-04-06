@@ -22,6 +22,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -59,6 +63,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
+    private Instant lockUntil;
+
+    private Integer failedLoginAttempts = 0;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status = ACTIVE;
 
@@ -77,6 +85,18 @@ public class User implements UserDetails {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "user")
     private Set<Earning> earnings = new HashSet<>();
+
+    public void registerFailedLoginAttempt() {
+        this.failedLoginAttempts++;
+
+        if (failedLoginAttempts >= 5) {
+            this.setLockUntil(Instant.now().plus(15, ChronoUnit.MINUTES));
+        }
+    }
+
+    public long getRemainingLockSeconds(){
+        return Duration.between(Instant.now(),lockUntil).toSeconds();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -107,22 +127,12 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return lockUntil == null || Instant.now().isAfter(lockUntil);
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return status == ACTIVE;
     }
 }
