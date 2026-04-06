@@ -8,7 +8,7 @@ import java.util.List;
 public record ExpenseRequest(
         Double amount,
 
-        @JsonFormat(pattern = "dd/MM/yyyy")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate date,
 
         String description,

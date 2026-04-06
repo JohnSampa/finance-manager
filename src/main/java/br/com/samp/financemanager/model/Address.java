@@ -42,8 +42,6 @@ public class Address {
 
     private String state;
 
-    @JsonIgnore
-    @Setter(value = lombok.AccessLevel.NONE)
     @OneToMany(mappedBy = "address")
     private Set<User> users = new HashSet<>();
 
