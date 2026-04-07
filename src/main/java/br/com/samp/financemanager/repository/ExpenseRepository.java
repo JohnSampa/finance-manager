@@ -2,8 +2,12 @@ package br.com.samp.financemanager.repository;
 
 import br.com.samp.financemanager.model.Expense;
 import br.com.samp.financemanager.model.User;
+import br.com.samp.financemanager.model.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +16,20 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByUser(User user);
 
     Optional<Expense> findByUserAndId(User user, Long id);
+
+    @Query("""
+        SELECT e FROM Expense e
+        WHERE(e.user = :user)
+        AND(:categoryId IS NULL OR EXISTS(
+            SELECT c FROM e.categories c WHERE c.id = :categoryId
+        ))
+        AND(:date IS NULL OR e.date = :date)
+        AND(:status IS NULL OR e.status = :status)
+    """)
+    List<Expense> findWithFilters(
+            @Param("user") User user,
+            @Param("categoryId") Long id,
+            @Param("date") LocalDate date,
+            @Param("status") TransactionStatus status
+    );
 }
