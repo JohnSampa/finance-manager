@@ -18,7 +18,7 @@ public interface EarningRepository extends JpaRepository<Earning, Long> {
 
     @Query("""
         SELECT e FROM Earning e
-        WHERE(:user IS NULL OR e.user = :user)
+        WHERE(e.user = :user)
         AND (:categoryId IS NULL OR EXISTS(
             SELECT c FROM e.categories c WHERE c.id = :categoryId
         ))

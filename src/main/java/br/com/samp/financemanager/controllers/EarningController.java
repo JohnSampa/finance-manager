@@ -33,7 +33,7 @@ public class EarningController {
     @GetMapping
     public ResponseEntity<List<EarningResponse>> findAll(
             @RequestParam(required = false)
-            Long id,
+            Long categoryId,
 
             @RequestParam(required = false)
             @DateTimeFormat(iso = DATE)
@@ -42,7 +42,7 @@ public class EarningController {
             @RequestParam(required = false)
             TransactionStatus status
     ) {
-        return ResponseEntity.ok(earningService.find(id, date, status));
+        return ResponseEntity.ok(earningService.find(categoryId, date, status));
     }
 
     @GetMapping("/{id}")
