@@ -60,6 +60,14 @@ public class EarningService {
         return mapper.toResponse(earning);
     }
 
+    public List<EarningResponse> findByCategoryId(Long categoryId) {
+        User user = userAuthService.getAuthenticatedUser();
+
+        List<Earning> earnings = earningRepository.findByUserAndCategoriesId(user, categoryId);
+
+        return  mapper.toResponseList(earnings);
+    }
+
     public EarningResponse save(EarningRequest earningRequest) {
         User user = userAuthService.getAuthenticatedUser();
 

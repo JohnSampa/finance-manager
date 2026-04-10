@@ -3,8 +3,10 @@ package br.com.samp.financemanager.controllers;
 import br.com.samp.financemanager.dto.request.CategoryRequest;
 import br.com.samp.financemanager.dto.request.CategoryUpadateRequest;
 import br.com.samp.financemanager.dto.response.CategoryResponse;
+import br.com.samp.financemanager.dto.response.EarningResponse;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.services.CategoryService;
+import br.com.samp.financemanager.services.EarningService;
 import br.com.samp.financemanager.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,11 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
     @Autowired
     private ExpenseService expenseService;
+
+    @Autowired
+    private EarningService earningService;
 
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> findAll() {
@@ -46,6 +50,12 @@ public class CategoryController {
     public ResponseEntity<List<ExpenseResponse>> findExpensesByCategoryId
             (@PathVariable Long id) {
         return ResponseEntity.ok(expenseService.findByCategoryId(id));
+    }
+
+    @GetMapping("/{id}/earnings")
+    public ResponseEntity<List<EarningResponse>> findEarningsByCategoryId
+            (@PathVariable Long id) {
+        return ResponseEntity.ok(earningService.findByCategoryId(id));
     }
 
     @PostMapping

@@ -31,4 +31,6 @@ public interface EarningRepository extends JpaRepository<Earning, Long> {
             @Param("date") LocalDate date,
             @Param("status") TransactionStatus status
     );
+
+    List<Earning> findByUserAndCategoriesId(User user, Long categoryId);
 }
