@@ -32,4 +32,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             @Param("date") LocalDate date,
             @Param("status") TransactionStatus status
     );
+
+    List<Expense> findByUserAndCategoriesId(User user, Long categoryId);
 }

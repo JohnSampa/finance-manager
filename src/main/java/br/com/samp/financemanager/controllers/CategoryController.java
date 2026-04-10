@@ -3,7 +3,9 @@ package br.com.samp.financemanager.controllers;
 import br.com.samp.financemanager.dto.request.CategoryRequest;
 import br.com.samp.financemanager.dto.request.CategoryUpadateRequest;
 import br.com.samp.financemanager.dto.response.CategoryResponse;
+import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.services.CategoryService;
+import br.com.samp.financemanager.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,10 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
+    @Autowired
+    private ExpenseService expenseService;
+
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> findAll() {
         return ResponseEntity.ok(categoryService.getAllCategories());
@@ -34,6 +40,12 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
+    }
+
+    @GetMapping("/{id}/expenses")
+    public ResponseEntity<List<ExpenseResponse>> findExpensesByCategoryId
+            (@PathVariable Long id) {
+        return ResponseEntity.ok(expenseService.findByCategoryId(id));
     }
 
     @PostMapping

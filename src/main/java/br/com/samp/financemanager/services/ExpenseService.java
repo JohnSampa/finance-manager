@@ -60,6 +60,14 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
+    public List<ExpenseResponse> findByCategoryId(Long categoryId) {
+        User user = userAuthService.getAuthenticatedUser();
+
+        List<Expense> expenses = repository.findByUserAndCategoriesId(user, categoryId);
+
+        return mapper.toExpenseResponseList(expenses);
+    }
+
     public ExpenseResponse save(ExpenseRequest expenseRequest) {
         User user = userAuthService.getAuthenticatedUser();
 
