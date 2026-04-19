@@ -4,6 +4,7 @@ import br.com.samp.financemanager.dto.request.AccountRequest;
 import br.com.samp.financemanager.dto.request.TransactionRequest;
 import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.services.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +40,7 @@ public class    AccountController {
 
     @PostMapping
     public ResponseEntity<AccountResponse> save(
-            @RequestBody AccountRequest accountRequest
+           @Valid @RequestBody AccountRequest accountRequest
     ) {
         AccountResponse response = accountService.save(accountRequest);
 
@@ -55,7 +56,7 @@ public class    AccountController {
     @PostMapping("/{id}/deposit")
     public ResponseEntity<AccountResponse> deposit(
             @PathVariable Long id,
-            @RequestBody TransactionRequest transactionRequest
+            @Valid @RequestBody TransactionRequest transactionRequest
     ){
         AccountResponse response = accountService.deposit(id,transactionRequest.amount());
 
@@ -65,7 +66,7 @@ public class    AccountController {
     @PostMapping("/{id}/withdraw")
     public ResponseEntity<AccountResponse> withdraw(
             @PathVariable Long id,
-            @RequestBody TransactionRequest transactionRequest
+            @Valid @RequestBody TransactionRequest transactionRequest
     ){
         AccountResponse response = accountService.withdraw(id,transactionRequest.amount());
 
