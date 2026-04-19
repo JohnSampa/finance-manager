@@ -2,7 +2,7 @@ package br.com.samp.financemanager.services;
 
 import br.com.samp.financemanager.dto.mapstruct.CategoryMapper;
 import br.com.samp.financemanager.dto.request.CategoryRequest;
-import br.com.samp.financemanager.dto.request.CategoryUpadateRequest;
+import br.com.samp.financemanager.dto.request.CategoryUpdateRequest;
 import br.com.samp.financemanager.dto.response.CategoryResponse;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.model.Category;
@@ -48,7 +48,7 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public CategoryResponse updateCategory(Long id, CategoryUpadateRequest categoryRequest) {
+    public CategoryResponse updateCategory(Long id, CategoryUpdateRequest categoryRequest) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Category not found with id " + id));
 

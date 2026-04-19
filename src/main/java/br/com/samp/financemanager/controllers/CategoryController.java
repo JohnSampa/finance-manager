@@ -1,13 +1,14 @@
 package br.com.samp.financemanager.controllers;
 
 import br.com.samp.financemanager.dto.request.CategoryRequest;
-import br.com.samp.financemanager.dto.request.CategoryUpadateRequest;
+import br.com.samp.financemanager.dto.request.CategoryUpdateRequest;
 import br.com.samp.financemanager.dto.response.CategoryResponse;
 import br.com.samp.financemanager.dto.response.EarningResponse;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.services.CategoryService;
 import br.com.samp.financemanager.services.EarningService;
 import br.com.samp.financemanager.services.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,7 +61,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<CategoryResponse> save(
-            @RequestBody CategoryRequest categoryRequest
+            @Valid @RequestBody CategoryRequest categoryRequest
     ) {
         CategoryResponse response = categoryService.createCategory(categoryRequest);
 
@@ -76,7 +77,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> update(
             @PathVariable Long id,
-            @RequestBody CategoryUpadateRequest categoryRequest
+            @Valid @RequestBody CategoryUpdateRequest categoryRequest
             ){
         return ResponseEntity.ok(categoryService.updateCategory(id, categoryRequest));
     }

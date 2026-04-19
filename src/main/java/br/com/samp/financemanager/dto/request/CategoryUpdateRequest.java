@@ -1,14 +1,11 @@
 package br.com.samp.financemanager.dto.request;
 
-import br.com.samp.financemanager.model.enums.CategoryType;
 import jakarta.validation.constraints.NotBlank;
 
-public record CategoryRequest(
+public record CategoryUpdateRequest(
         @NotBlank(message = "Invalid name")
         String name,
         @NotBlank(message = "Invalid description")
-        String description,
-        @NotBlank(message = "Invalid type")
-        CategoryType type
+        String description
 ) {
 }
