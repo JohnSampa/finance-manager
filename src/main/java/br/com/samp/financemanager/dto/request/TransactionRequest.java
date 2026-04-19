@@ -1,9 +1,11 @@
 package br.com.samp.financemanager.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record TransactionRequest(
-        @NotBlank(message = "Invalid amount")
+        @NotNull(message = "Amount is required")
+        @Positive(message = "Amount cannot be negative")
         Double amount
 ) {
 }
