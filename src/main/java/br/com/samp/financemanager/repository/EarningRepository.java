@@ -10,11 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface EarningRepository extends JpaRepository<Earning, Long> {
     List<Earning> findByUser(User user);
 
-    Optional<Earning> findByUserAndId(User user,Long id);
+    Optional<Earning> findByUserAndUuid(User user, UUID id);
 
     @Query("""
         SELECT e FROM Earning e

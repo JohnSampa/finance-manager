@@ -20,7 +20,7 @@ public record ExpenseRequest(
         @NotBlank(message = "Invalid description")
         String description,
 
-        @NotBlank(message = "Invalid categoriesIds")
+        @NotNull(message = "CategoriesIds is required")
         List<Long> categoryIds
 ) {
 }

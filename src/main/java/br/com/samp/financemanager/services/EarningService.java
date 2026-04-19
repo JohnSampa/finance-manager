@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static br.com.samp.financemanager.model.enums.CategoryType.EARNING;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.CONFIRMED;
@@ -51,10 +52,10 @@ public class EarningService {
         return  mapper.toResponseList(earnings);
     }
 
-    public EarningResponse findById(Long id) {
+    public EarningResponse findByUUID(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Earning earning = earningRepository.findByUserAndId(user,id)
+        Earning earning = earningRepository.findByUserAndUuid(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Earning not found"));
 
         return mapper.toResponse(earning);
@@ -81,10 +82,10 @@ public class EarningService {
         return mapper.toResponse(earning);
     }
 
-    public EarningResponse confirmEarning(Long id) {
+    public EarningResponse confirmEarning(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Earning earning = earningRepository.findByUserAndId(user,id)
+        Earning earning = earningRepository.findByUserAndUuid(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Earning not found"));
 
         TransactionStatus status = earning.getStatus();
@@ -96,17 +97,17 @@ public class EarningService {
         return mapper.toResponse(earning);
     }
 
-    public void deleteById(Long id) {
+    public void deleteByUUID(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Earning earning = earningRepository.findByUserAndId(user,id)
+        Earning earning = earningRepository.findByUserAndUuid(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Earning not found"));
 
         if (earning.getStatus() == DELETED)
             throw new BusinessException("Earning cannot be deleted");
 
         earning.setStatus(DELETED);
-        earning = earningRepository.save(earning);
+        earningRepository.save(earning);
     }
 
     private List<Category> getCategoriesByIds(List<Long> categoriesIds) {

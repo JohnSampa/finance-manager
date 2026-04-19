@@ -17,6 +17,7 @@ import static br.com.samp.financemanager.model.enums.TransactionStatus.PLANNED;
 @Mapper(componentModel = "spring",uses = CategoryMapper.class)
 public interface EarningMapper {
 
+    @Mapping(target = "uuid",ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "categories", ignore = true)

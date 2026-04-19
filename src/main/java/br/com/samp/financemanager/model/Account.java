@@ -40,7 +40,6 @@ public class Account {
 
     private String bankName;
 
-    @Setter(AccessLevel.NONE)
     private Double balance;
 
     @ManyToOne

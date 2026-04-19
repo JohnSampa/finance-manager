@@ -4,9 +4,10 @@ import br.com.samp.financemanager.model.enums.TransactionStatus;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public record EarningResponse(
-        Long id,
+        UUID uuid,
 
         Double amount,
 

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
@@ -47,8 +48,8 @@ public class EarningController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EarningResponse> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(earningService.findById(id));
+    public ResponseEntity<EarningResponse> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(earningService.findByUUID(id));
     }
 
     @PostMapping
@@ -60,22 +61,22 @@ public class EarningController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.id())
+                .buildAndExpand(response.uuid())
                 .toUri();
 
         return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        earningService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
+        earningService.deleteByUUID(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/confirm")
     public ResponseEntity<EarningResponse> confirm(
-            @PathVariable Long id
+            @PathVariable UUID id
     ) {
         EarningResponse response = earningService.confirmEarning(id);
         return ResponseEntity.ok().body(response);
