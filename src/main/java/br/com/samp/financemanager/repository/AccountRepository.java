@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findByHolder(User holder);
 
-    Optional<Account> findByHolderAndId(User holder, Long id);
+    Optional<Account> findByHolderAndUuid(User holder, UUID uuid);
 
     void deleteByHolderAndId(User holder, Long id);
 }

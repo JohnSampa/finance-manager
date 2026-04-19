@@ -13,6 +13,7 @@ public interface AccountMapper {
 
     AccountResponse toAccountResponse(Account account);
 
+    @Mapping(target = "uuid",ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "holder",ignore = true)
     Account toEntity(AccountRequest accountRequest);

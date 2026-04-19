@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/accounts")
@@ -33,7 +34,7 @@ public class    AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> findById(
-            @PathVariable Long id
+            @PathVariable UUID id
     ){
         return ResponseEntity.ok(accountService.findById(id));
     }
@@ -47,7 +48,7 @@ public class    AccountController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.id())
+                .buildAndExpand(response.uuid())
                 .toUri();
 
         return ResponseEntity.created(uri).body(response);
@@ -55,7 +56,7 @@ public class    AccountController {
 
     @PostMapping("/{id}/deposit")
     public ResponseEntity<AccountResponse> deposit(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody TransactionRequest transactionRequest
     ){
         AccountResponse response = accountService.deposit(id,transactionRequest.amount());
@@ -65,7 +66,7 @@ public class    AccountController {
 
     @PostMapping("/{id}/withdraw")
     public ResponseEntity<AccountResponse> withdraw(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody TransactionRequest transactionRequest
     ){
         AccountResponse response = accountService.withdraw(id,transactionRequest.amount());
@@ -74,7 +75,7 @@ public class    AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
 
         accountService.delete(id);
 

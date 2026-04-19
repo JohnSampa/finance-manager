@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -37,10 +38,10 @@ public class AccountService {
                 .toListAccountsResponse(accountRepository.findByHolder(user));
     }
 
-    public AccountResponse findById(Long id) {
+    public AccountResponse findById(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Account account = accountRepository.findByHolderAndId(user,id)
+        Account account = accountRepository.findByHolderAndUuid(user,id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Account not found")
                 );
@@ -58,35 +59,36 @@ public class AccountService {
         return  accountMapper.toAccountResponse(account);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        accountRepository.findByHolderAndId(user,id)
+        Account account = accountRepository.findByHolderAndUuid(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Account not found with id " + id));
 
-        accountRepository.deleteByHolderAndId(user,id);
+        accountRepository.deleteByHolderAndId(user,account.getId());
     }
 
-    public AccountResponse deposit(Long accountId,Double amount) {
+    public AccountResponse deposit(UUID id,Double amount) {
+        if (amount < 0) throw new BusinessException("Amount cannot be negative");
+
         User user = userAuthService.getAuthenticatedUser();
 
-        Account account = accountRepository.findByHolderAndId(user, accountId)
+        Account account = accountRepository.findByHolderAndUuid(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
-
-        if (amount < 0) throw new BusinessException("Amount cannot be negative");
 
         account.deposit(amount);
 
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }
 
-    public AccountResponse withdraw(Long accountId,Double amount) {
+    public AccountResponse withdraw(UUID id,Double amount) {
+        if (amount < 0) throw new BusinessException("Amount cannot be negative");
+
         User user = userAuthService.getAuthenticatedUser();
 
-        Account account = accountRepository.findByHolderAndId(user, accountId)
+        Account account = accountRepository.findByHolderAndUuid(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
 
-        if (amount < 0) throw new BusinessException("Amount cannot be negative");
 
         if (account.getBalance() < amount) throw new BusinessException("Insufficient balance");
 
