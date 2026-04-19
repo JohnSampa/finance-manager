@@ -4,6 +4,7 @@ import br.com.samp.financemanager.auth.dto.AuthLoginResponse;
 import br.com.samp.financemanager.auth.dto.AuthRegisterResponse;
 import br.com.samp.financemanager.auth.dto.AuthenticationDTO;
 import br.com.samp.financemanager.dto.request.UserRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,14 +23,14 @@ public class AuthenticationController {
     private AuthenticationService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthLoginResponse> login(@RequestBody AuthenticationDTO authDto) {
+    public ResponseEntity<AuthLoginResponse> login(@Valid @RequestBody AuthenticationDTO authDto) {
         var token = authService.authenticate(authDto);
 
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthRegisterResponse> register(@RequestBody UserRequest user) {
+    public ResponseEntity<AuthRegisterResponse> register(@Valid @RequestBody UserRequest user) {
         AuthRegisterResponse response = authService.register(user);
 
         URI uri = ServletUriComponentsBuilder

@@ -19,7 +19,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +63,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.TOO_MANY_REQUESTS);
         problem.setDetail(e.getMessage());
         problem.setProperty("timestamp", Instant.now());
-        problem.setProperty("retry_after_second",e.getRetryAfterSeconds());
+        problem.setProperty("retry_after_second", e.getRetryAfterSeconds());
         return problem;
     }
 
@@ -89,13 +88,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<Map<String, String>> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> {
-                    assert error.getDefaultMessage() != null;
-                    return Map.of(
-                            "field", error.getField(),
-                            "message",error.getDefaultMessage()
-                    );
-                }).toList();
+                .map(error -> Map.of(
+                        "field", error.getField(),
+                        "message", error.getDefaultMessage()
+                )).toList();
 
         problem.setTitle("Validation Failed");
         problem.setProperty("timestamp", Instant.now());
