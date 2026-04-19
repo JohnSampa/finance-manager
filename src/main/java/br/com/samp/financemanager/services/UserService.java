@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import static br.com.samp.financemanager.model.enums.UserRole.USER;
 
@@ -38,8 +39,8 @@ public class UserService {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
 
-    public UserResponse findById(long id) {
-        Optional<User> user = userRepository.findById(id);
+    public UserResponse findByUUID(UUID id) {
+        Optional<User> user = userRepository.findByUuid(id);
 
         return userMapper.toUserResponse(user.orElseThrow(()-> new ResourceNotFoundException(id)));
     }
@@ -63,8 +64,8 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public UserResponse update(Long id, UserRequest userRequest) {
-        User userEntity = userRepository.findById(id)
+    public UserResponse update(UUID id, UserRequest userRequest) {
+        User userEntity = userRepository.findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException(id));
 
         var address = userEntity.getAddress();
@@ -91,8 +92,8 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(userEntity));
     }
 
-    public void delete(long id) {
-        User user = userRepository.findById(id)
+    public void delete(UUID id) {
+        User user = userRepository.findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException(id));
 
         try {

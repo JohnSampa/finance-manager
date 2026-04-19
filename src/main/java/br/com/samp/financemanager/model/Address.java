@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.ToString;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -25,9 +27,18 @@ import java.util.Set;
 @Table(name = "tb_address")
 public class Address {
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @PrePersist
+    public void onCreate() {
+        if (this.uuid == null)
+            this.uuid = UUID.randomUUID();
+    }
+    @Column(nullable = false, unique = true)
+    private UUID uuid;
 
     @Column(nullable = false)
     private String zipCode;
@@ -42,6 +53,7 @@ public class Address {
 
     private String state;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "address")
     private Set<User> users = new HashSet<>();
 

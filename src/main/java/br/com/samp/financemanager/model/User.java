@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,6 +22,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Indexed;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -31,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import static br.com.samp.financemanager.model.enums.UserRole.ADMIN;
 import static br.com.samp.financemanager.model.enums.UserStatus.ACTIVE;
@@ -46,6 +49,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @PrePersist
+    public void onCreate() {
+        if(this.uuid == null)
+            this.uuid = UUID.randomUUID();
+    }
+    @Column(unique = true,nullable = false)
+    private UUID uuid;
 
     @Column(nullable = false)
     private String name;

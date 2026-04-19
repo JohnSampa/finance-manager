@@ -4,9 +4,10 @@ import br.com.samp.financemanager.model.Address;
 import br.com.samp.financemanager.model.enums.UserStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 public record UserResponse(
-        Long id,
+        UUID uuid,
         String name,
         String email,
         String cpf,

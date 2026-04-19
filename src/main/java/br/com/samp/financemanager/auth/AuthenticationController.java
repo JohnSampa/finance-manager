@@ -36,7 +36,7 @@ public class AuthenticationController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.userResponse().id())
+                .buildAndExpand(response.userResponse().uuid())
                 .toUri();
 
         return ResponseEntity.created(uri).body(response);
