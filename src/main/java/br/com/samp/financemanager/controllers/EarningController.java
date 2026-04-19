@@ -4,6 +4,7 @@ import br.com.samp.financemanager.dto.request.EarningRequest;
 import br.com.samp.financemanager.dto.response.EarningResponse;
 import br.com.samp.financemanager.model.enums.TransactionStatus;
 import br.com.samp.financemanager.services.EarningService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,7 @@ public class EarningController {
 
     @PostMapping
     public ResponseEntity<EarningResponse> save(
-            @RequestBody EarningRequest earningRequest
+            @Valid @RequestBody EarningRequest earningRequest
     ) {
         EarningResponse response = earningService.save(earningRequest);
 
