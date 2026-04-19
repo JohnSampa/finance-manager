@@ -3,6 +3,7 @@ package br.com.samp.financemanager.controllers;
 import br.com.samp.financemanager.dto.request.UserRequest;
 import br.com.samp.financemanager.dto.response.UserResponse;
 import br.com.samp.financemanager.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
    @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody UserRequest user) {
+    public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest user) {
         UserResponse response = userService.save(user);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -51,7 +52,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(
             @PathVariable Long id,
-            @RequestBody UserRequest user
+            @Valid @RequestBody UserRequest user
     ) {
         UserResponse response = userService.update(id, user);
 
