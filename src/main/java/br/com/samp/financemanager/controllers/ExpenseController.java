@@ -4,6 +4,7 @@ import br.com.samp.financemanager.dto.request.ExpenseRequest;
 import br.com.samp.financemanager.dto.response.ExpenseResponse;
 import br.com.samp.financemanager.model.enums.TransactionStatus;
 import br.com.samp.financemanager.services.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class ExpenseController {
 
     @PostMapping
     public ResponseEntity<ExpenseResponse> save(
-            @RequestBody ExpenseRequest expenseRequest
+            @Valid @RequestBody ExpenseRequest expenseRequest
     ) {
         ExpenseResponse response = expenseService.save(expenseRequest);
 
