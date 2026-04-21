@@ -112,9 +112,9 @@ public class ExpenseService {
         expense = repository.save(expense);
     }
 
-    private List<Category> getCategoriesById(List<Long> ids) {
+    private List<Category> getCategoriesById(List<UUID> ids) {
 
-        List<Category> categories = categoryRepository.findAllById(ids);
+        List<Category> categories = categoryRepository.findAllByUuidIn(ids);
 
         if (categories.size() != ids.size())
             throw new ResourceNotFoundException("Category not found");

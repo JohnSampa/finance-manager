@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public record ExpenseRequest(
         @NotNull(message = "Amount is required")
@@ -21,6 +22,6 @@ public record ExpenseRequest(
         String description,
 
         @NotNull(message = "CategoriesIds is required")
-        List<Long> categoryIds
+        List<UUID> categoryIds
 ) {
 }

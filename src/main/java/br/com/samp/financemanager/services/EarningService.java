@@ -110,8 +110,8 @@ public class EarningService {
         earningRepository.save(earning);
     }
 
-    private List<Category> getCategoriesByIds(List<Long> categoriesIds) {
-        List<Category> categories = categoryRepository.findAllById(categoriesIds);
+    private List<Category> getCategoriesByIds(List<UUID> categoriesIds) {
+        List<Category> categories = categoryRepository.findAllByUuidIn(categoriesIds);
 
         if(categories.size()!= categoriesIds.size()){
             throw new ResourceNotFoundException("Category not found");
