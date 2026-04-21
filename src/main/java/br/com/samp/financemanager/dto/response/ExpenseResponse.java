@@ -4,9 +4,10 @@ import br.com.samp.financemanager.model.enums.TransactionStatus;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public record ExpenseResponse(
-        Long id,
+        UUID uuid,
         Double amount,
         LocalDate date,
         String description,

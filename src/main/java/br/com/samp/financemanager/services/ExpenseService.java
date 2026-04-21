@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static br.com.samp.financemanager.model.enums.CategoryType.EXPANSE;
 import static br.com.samp.financemanager.model.enums.TransactionStatus.CONFIRMED;
@@ -51,10 +52,10 @@ public class ExpenseService {
         return mapper.toExpenseResponseList(expenses);
     }
 
-    public ExpenseResponse findById(Long id) {
+    public ExpenseResponse findById(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Expense expense = repository.findByUserAndId(user, id)
+        Expense expense = repository.findByUserAndUuid(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
         return mapper.toExpenseResponse(expense);
@@ -82,10 +83,10 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
-    public ExpenseResponse confirmExpense(Long id) {
+    public ExpenseResponse confirmExpense(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Expense expense = repository.findByUserAndId(user, id)
+        Expense expense = repository.findByUserAndUuid(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
         TransactionStatus expenseStatus = expense.getStatus();
@@ -98,10 +99,10 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
-        Expense expense = repository.findByUserAndId(user, id)
+        Expense expense = repository.findByUserAndUuid(user, id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 
         if (expense.getStatus() == DELETED)

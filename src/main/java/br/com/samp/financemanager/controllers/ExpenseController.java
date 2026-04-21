@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
@@ -48,7 +49,7 @@ public class ExpenseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseResponse> findById(
-            @PathVariable Long id
+            @PathVariable UUID id
     ) {
         return ResponseEntity.ok(expenseService.findById(id));
     }
@@ -62,7 +63,7 @@ public class ExpenseController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.id())
+                .buildAndExpand(response.uuid())
                 .toUri();
 
         return ResponseEntity.created(uri).body(response);
@@ -70,7 +71,7 @@ public class ExpenseController {
 
     @PostMapping("/{id}/confirm")
     public ResponseEntity<ExpenseResponse> confirmExpense(
-            @PathVariable Long id
+            @PathVariable UUID id
     ) {
         ExpenseResponse response = expenseService.confirmExpense(id);
 
@@ -79,7 +80,7 @@ public class ExpenseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExpense(
-            @PathVariable Long id
+            @PathVariable UUID id
     ) {
         expenseService.deleteById(id);
 

@@ -10,12 +10,13 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     List<Expense> findByUser(User user);
 
-    Optional<Expense> findByUserAndId(User user, Long id);
+    Optional<Expense> findByUserAndUuid(User user, UUID id);
 
     @Query("""
         SELECT e FROM Expense e
