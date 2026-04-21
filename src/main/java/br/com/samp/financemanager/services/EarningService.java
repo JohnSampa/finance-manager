@@ -41,7 +41,7 @@ public class EarningService {
     private AuthenticatedUserService userAuthService;
 
     public List<EarningResponse> find(
-            Long categoryId,
+            UUID categoryId,
             LocalDate date,
             TransactionStatus status
     ) {

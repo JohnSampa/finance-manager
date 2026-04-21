@@ -35,7 +35,7 @@ public class ExpenseController {
     @GetMapping
     public ResponseEntity<List<ExpenseResponse>> findAllByUserId(
             @RequestParam(required = false)
-            Long categoryId,
+            UUID categoryId,
 
             @DateTimeFormat(iso = DATE)
             @RequestParam(required = false)

@@ -35,7 +35,7 @@ public class EarningController {
     @GetMapping
     public ResponseEntity<List<EarningResponse>> findAll(
             @RequestParam(required = false)
-            Long categoryId,
+            UUID categoryId,
 
             @RequestParam(required = false)
             @DateTimeFormat(iso = DATE)

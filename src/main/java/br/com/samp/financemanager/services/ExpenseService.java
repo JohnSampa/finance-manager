@@ -41,7 +41,7 @@ public class ExpenseService {
     private AuthenticatedUserService userAuthService;
 
     public List<ExpenseResponse> find(
-            Long categoryId,
+            UUID categoryId,
             LocalDate date,
             TransactionStatus status
     ) {
