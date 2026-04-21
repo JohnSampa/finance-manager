@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryService {
@@ -27,8 +28,8 @@ public class CategoryService {
         return categoryMapper.toResponseList(categories);
     }
 
-    public CategoryResponse getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id)
+    public CategoryResponse getCategoryById(UUID id) {
+        Category category = categoryRepository.findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Category not found with id " + id));
         return categoryMapper.toResponse(category);
     }
@@ -40,16 +41,16 @@ public class CategoryService {
         return categoryMapper.toResponse(category);
     }
 
-    public void deleteCategoryById(Long id) {
+    public void deleteCategoryByUuid(UUID id) {
         Category category = categoryRepository
-                .findById(id)
+                .findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Category not found with id " + id));
 
         categoryRepository.delete(category);
     }
 
-    public CategoryResponse updateCategory(Long id, CategoryUpdateRequest categoryRequest) {
-        Category category = categoryRepository.findById(id)
+    public CategoryResponse updateCategory(UUID id, CategoryUpdateRequest categoryRequest) {
+        Category category = categoryRepository.findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Category not found with id " + id));
 
         category.setDescription(categoryRequest.description());

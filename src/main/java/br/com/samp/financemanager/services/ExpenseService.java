@@ -61,10 +61,10 @@ public class ExpenseService {
         return mapper.toExpenseResponse(expense);
     }
 
-    public List<ExpenseResponse> findByCategoryId(Long categoryId) {
+    public List<ExpenseResponse> findByCategoryUuid(UUID categoryId) {
         User user = userAuthService.getAuthenticatedUser();
 
-        List<Expense> expenses = repository.findByUserAndCategoriesId(user, categoryId);
+        List<Expense> expenses = repository.findByUserAndCategoriesUuid(user, categoryId);
 
         return mapper.toExpenseResponseList(expenses);
     }

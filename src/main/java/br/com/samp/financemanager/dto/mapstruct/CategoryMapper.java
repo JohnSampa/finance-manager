@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
+    @Mapping(target = "uuid",ignore = true)
     @Mapping(target = "id", ignore = true)
     Category toEntity(CategoryRequest categoryRequest);
 

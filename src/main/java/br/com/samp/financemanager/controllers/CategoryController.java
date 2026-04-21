@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/categories")
@@ -43,20 +44,20 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponse> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
     @GetMapping("/{id}/expenses")
     public ResponseEntity<List<ExpenseResponse>> findExpensesByCategoryId
-            (@PathVariable Long id) {
-        return ResponseEntity.ok(expenseService.findByCategoryId(id));
+            (@PathVariable UUID id) {
+        return ResponseEntity.ok(expenseService.findByCategoryUuid(id));
     }
 
     @GetMapping("/{id}/earnings")
     public ResponseEntity<List<EarningResponse>> findEarningsByCategoryId
-            (@PathVariable Long id) {
-        return ResponseEntity.ok(earningService.findByCategoryId(id));
+            (@PathVariable UUID id) {
+        return ResponseEntity.ok(earningService.findByCategoryUuid(id));
     }
 
     @PostMapping
@@ -68,7 +69,7 @@ public class CategoryController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.id())
+                .buildAndExpand(response.uuid())
                 .toUri();
 
         return ResponseEntity.created(uri).body(response);
@@ -76,15 +77,15 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> update(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody CategoryUpdateRequest categoryRequest
             ){
         return ResponseEntity.ok(categoryService.updateCategory(id, categoryRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        categoryService.deleteCategoryById(id);
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        categoryService.deleteCategoryByUuid(id);
 
         return ResponseEntity.noContent().build();
     }

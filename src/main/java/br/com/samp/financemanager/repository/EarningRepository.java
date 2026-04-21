@@ -33,5 +33,5 @@ public interface EarningRepository extends JpaRepository<Earning, Long> {
             @Param("status") TransactionStatus status
     );
 
-    List<Earning> findByUserAndCategoriesId(User user, Long categoryId);
+    List<Earning> findByUserAndCategoriesUuid(User user, UUID categoryId);
 }
