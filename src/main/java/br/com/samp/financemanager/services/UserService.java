@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -92,6 +93,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(userEntity));
     }
 
+    @Transactional
     public void delete(UUID id) {
         User user = userRepository.findByUuid(id)
                 .orElseThrow(()-> new ResourceNotFoundException(id));
@@ -100,7 +102,8 @@ public class UserService {
             userRepository.delete(user);
         }catch(DataIntegrityViolationException e){
 
-            throw new DataBaseException(e.getMessage());
+            throw new DataBaseException(
+                    "The user cannot be deleted, as this would cause inconsistencies in the system.");
 
         }
     }

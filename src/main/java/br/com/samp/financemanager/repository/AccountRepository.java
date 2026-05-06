@@ -13,6 +13,4 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findByHolder(User holder);
 
     Optional<Account> findByHolderAndUuid(User holder, UUID uuid);
-
-    void deleteByHolderAndId(User holder, Long id);
 }

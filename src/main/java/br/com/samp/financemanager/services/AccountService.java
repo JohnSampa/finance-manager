@@ -71,7 +71,7 @@ public class AccountService {
                 .orElseThrow(()-> new ResourceNotFoundException("Account not found with id " + id));
 
         try {
-            accountRepository.deleteByHolderAndId(user,account.getId());
+            accountRepository.delete(account);
         }catch (DataIntegrityViolationException e) {
             throw new DataBaseException(
                     "The account cannot be deleted, as this would cause inconsistencies in the system.");
