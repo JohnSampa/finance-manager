@@ -4,6 +4,7 @@ import br.com.samp.financemanager.dto.mapstruct.AccountMapper;
 import br.com.samp.financemanager.dto.request.AccountRequest;
 import br.com.samp.financemanager.dto.response.AccountResponse;
 import br.com.samp.financemanager.exceptions.BusinessException;
+import br.com.samp.financemanager.exceptions.DataBaseException;
 import br.com.samp.financemanager.exceptions.ResourceNotFoundException;
 import br.com.samp.financemanager.infrastructure.security.service.AuthenticatedUserService;
 import br.com.samp.financemanager.model.Account;
@@ -11,7 +12,9 @@ import br.com.samp.financemanager.model.User;
 import br.com.samp.financemanager.repository.AccountRepository;
 import br.com.samp.financemanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,13 +62,20 @@ public class AccountService {
         return  accountMapper.toAccountResponse(account);
     }
 
+
+    @Transactional
     public void delete(UUID id) {
         User user = userAuthService.getAuthenticatedUser();
 
         Account account = accountRepository.findByHolderAndUuid(user,id)
                 .orElseThrow(()-> new ResourceNotFoundException("Account not found with id " + id));
 
-        accountRepository.deleteByHolderAndId(user,account.getId());
+        try {
+            accountRepository.deleteByHolderAndId(user,account.getId());
+        }catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(
+                    "The account cannot be deleted, as this would cause inconsistencies in the system.");
+        }
     }
 
     public AccountResponse deposit(UUID id,Double amount) {

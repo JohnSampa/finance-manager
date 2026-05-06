@@ -18,7 +18,7 @@ public class OpenApiConfig {
                                 "de gerenciamento de gastos e finanças pessoais")
                         .contact(
                                 new Contact()
-                                        .name("Jonathan Samapaio")
+                                        .name("Jonathan Sampaio")
                                         .email("aurijona192@gmail.com")
                         )
         );

@@ -25,7 +25,8 @@ public class AddressService {
 
         ViaCepAddressDTO response = viaCepClient.getViaCepAddress(cep);
 
-        if (response == null) throw new BusinessException("Invalid CEP");
+        if (response.cep() == null)
+            throw new BusinessException("Invalid CEP");
 
         Address address = viaCepAddressMapper.toEntity(response);
 
