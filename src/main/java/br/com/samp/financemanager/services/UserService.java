@@ -52,6 +52,11 @@ public class UserService {
     }
 
     public User saveEntity(UserRequest userRequest) {
+        userRepository.findUserByEmail(userRequest.email())
+                .ifPresent(user -> {
+                    throw new DataBaseException("A user with this email already exists");
+                });
+
         Address address = addressService.saveAddress(userRequest.zipcode(),userRequest.addressNumber());
 
         User userEntity = userMapper.toEntity(userRequest);
